@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nectagro.in - Community</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .community-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .post {
+            background-color: #f0f0f0;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .post-form {
+            margin-bottom: 2rem;
+        }
+
+        .post-form textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <div class="community-container">
+        <h1>Nectagro.in Community</h1>
+        <div class="post-form">
+            <form id="postForm">
+                <textarea name="message" placeholder="Share your thoughts..." required></textarea>
+                <button type="submit">Post</button>
+            </form>
+        </div>
+        <div id="posts"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const postForm = document.getElementById('postForm');
+            const postsContainer = document.getElementById('posts');
+
+            const fetchPosts = async () => {
+                const response = await fetch('/posts');
+                const posts = await response.json();
+                postsContainer.innerHTML = '';
+                posts.forEach(post => {
+                    const postElement = document.createElement('div');
+                    postElement.classList.add('post');
+                    postElement.innerHTML = `
+                        <strong>${post.username} from ${post.location}</strong>
+                        <p>${post.message}</p>
+                    `;
+                    postsContainer.appendChild(postElement);
+                });
+            };
+
+            postForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(postForm);
+                const response = await fetch('/post', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.success) {
+                    postForm.reset();
+                    fetchPosts();
+                } else {
+                    alert(result.message);
+                }
+            });
+
+            fetchPosts();
+        });
+    </script>
+</body>
+</html>

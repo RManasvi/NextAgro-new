@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Community Discussions</h2>
+    {% for post in posts %}
+        <p><b>{{ post[0] }}</b> from {{ post[1] }}: {{ post[2] }}</p>
+    {% endfor %}
+    <a href="/dashboard">Back</a>
+</body>
+</html>

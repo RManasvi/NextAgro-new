@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Rental</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            margin: 0.5rem 0;
+        }
+
+        input[type="text"], input[type="file"], input[type="tel"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .equipment-list {
+            margin-top: 2rem;
+        }
+
+        .equipment-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .equipment-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+        .equipment-item .details {
+            flex: 1;
+        }
+
+        .equipment-item .details h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .equipment-item .details p {
+            margin: 0.2rem 0;
+            color: #666;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+        }
+
+        .close-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .close-btn:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rent Your Equipment</h1>
+
+        <form id="equipmentForm">
+            <label for="name">Equipment Name:</label>
+            <input type="text" id="name" placeholder="Enter equipment name" required>
+
+            <label for="renterName">Renter Name:</label>
+            <input type="text" id="renterName" placeholder="Enter renter name" required>
+
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="tel" id="phoneNumber" placeholder="Enter phone number" required>
+
+            <label for="duration">Duration/Availability:</label>
+            <input type="text" id="duration" placeholder="e.g., Jan-March" required>
+
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" accept="image/*" required>
+
+            <button type="submit">Add Equipment</button>
+        </form>
+
+        <div class="equipment-list" id="equipmentList">
+            <h2>Available Equipment</h2>
+            <!-- Equipment items will be appended here -->
+        </div>
+    </div>
+
+    <!-- Modal for booking -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <h2>Book Equipment</h2>
+            <script src="https://sheetdb.io/s/f/ca5qkpb9i8uwt.js"></script>
+            <button class="close-btn" id="closeModal">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const equipmentForm = document.getElementById('equipmentForm');
+        const equipmentList = document.getElementById('equipmentList');
+        const bookingModal = document.getElementById('bookingModal');
+        const closeModal = document.getElementById('closeModal');
+
+        // Load equipment from localStorage
+        const loadEquipment = () => {
+            const equipmentData = JSON.parse(localStorage.getItem('equipment')) || [];
+            equipmentList.innerHTML = '<h2>Available Equipment</h2>';
+            equipmentData.forEach((item, index) => {
+                const equipmentItem = document.createElement('div');
+                equipmentItem.classList.add('equipment-item');
+
+                equipmentItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="details">
+                        <h3>${item.name}</h3>
+                        <p>Renter Name: ${item.renterName}</p>
+                        <p>Phone Number: ${item.phoneNumber}</p>
+                        <p>Duration: ${item.duration}</p>
+                    </div>
+                    <button class="delete-btn" onclick="deleteEquipment(${index})">Delete</button>
+                    <button class="book-btn" onclick="bookEquipment(${index})">Book</button>
+                `;
+                equipmentList.appendChild(equipmentItem);
+            });
+        };
+
+        const addEquipment = (name, renterName, phoneNumber, duration, image) => {
+            const equipmentData = JSON.parse(localStorage.getItem('equipment')) || [];
+            equipmentData.push({ name, renterName, phoneNumber, duration, image });
+            localStorage.setItem('equipment', JSON.stringify(equipmentData));
+            loadEquipment(); // Reload the list to reflect the new item
+        };
+
+        // Delete equipment from localStorage
+        const deleteEquipment = (index) => {
+            const equipmentData = JSON.parse(localStorage.getItem('equipment')) || [];
+            equipmentData.splice(index, 1); // Remove the item at the specified index
+            localStorage.setItem('equipment', JSON.stringify(equipmentData));
+            loadEquipment(); // Reload the list to reflect the deletion
+        };
+
+        // Handle form submission
+        equipmentForm.addEventListener('submit', event => {
+            event.preventDefault();
+
+            const nameInput = document.getElementById('name');
+            const renterNameInput = document.getElementById('renterName');
+            const phoneNumberInput = document.getElementById('phoneNumber');
+            const durationInput = document.getElementById('duration');
+            const imageInput = document.getElementById('image');
+
+            const name = nameInput.value;
+            const renterName = renterNameInput.value;
+            const phoneNumber = phoneNumberInput.value;
+            const duration = durationInput.value;
+            const file = imageInput.files[0];
+
+            if (name && renterName && phoneNumber && duration && file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const imageData = reader.result;
+                    addEquipment(name, renterName, phoneNumber, duration, imageData);
+                };
+                reader.readAsDataURL(file);
+
+                nameInput.value = ''; // Clear the input fields
+                renterNameInput.value = '';
+                phoneNumberInput.value = '';
+                durationInput.value = '';
+                imageInput.value = '';
+            } else {
+                alert('Please fill out all fields.');
+            }
+        });
+
+        // Open booking modal
+        const bookEquipment = (index) => {
+            bookingModal.style.display = 'flex';
+        };
+
+        // Close booking modal
+        closeModal.addEventListener('click', () => {
+            bookingModal.style.display = 'none';
+        });
+
+        // Initial load of equipment items
+        loadEquipment();
+    </script>
+</body>
+</html>

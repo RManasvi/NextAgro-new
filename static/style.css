@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to right, #a8e063, #56ab2f);
+}
+
+.container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    color: #56ab2f;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.tab {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.tab.active {
+    background-color: #56ab2f;
+    color: white;
+}
+
+.tab:hover {
+    background-color: #4a9428;
+    color: white;
+}
+
+form {
+    display: none;
+}
+
+form.active {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    border-color: #56ab2f;
+    outline: none;
+    box-shadow: 0 0 5px rgba(86, 171, 47, 0.5);
+}
+
+button {
+    background-color: #56ab2f;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #4a9428;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1.5rem;
+        max-width: 90%;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .tab {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    input {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    button {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+} 

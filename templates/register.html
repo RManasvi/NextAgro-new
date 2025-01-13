@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #8ec543;
+    background-size: cover; /* Ensures the image covers the entire background */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #28a745;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #8ec543;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
+        .feedback-section {
+            margin-top: 40px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .feedback-cards {
+            display: flex;
+            animation: scroll 20s linear infinite;
+        }
+
+        .feedback-cards:hover {
+            animation-play-state: paused;
+        }
+
+        .feedback-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            margin: 10px;
+            flex-shrink: 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feedback-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .feedback-card h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .feedback-card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Register</h1>
+    <form method="POST" action="/register">
+        <input type="text" name="username" placeholder="Username" required aria-label="Username"><br>
+        <input type="password" name="password" placeholder="Password" required aria-label="Password"><br>
+        <input type="text" name="location" placeholder="Location" required aria-label="Location"><br>
+        <input type="text" name="crop" placeholder="Crop Grown" required aria-label="Crop Grown"><br>
+        <button type="submit">Register</button>
+    </form>
+    <a href="/">Back to Home</a>
+
+    <div class="feedback-section">
+        <h2>Customer Feedback</h2>
+        <div class="feedback-cards">
+            <div class="feedback-card">
+                <h3>John Doe</h3>
+                <p>"Great service! My crops have never been better."</p>
+            </div>
+            <div class="feedback-card">
+                <h3>Jane Smith</h3>
+                <p>"Highly recommend! The support team is amazing."</p>
+            </div>
+            <div class="feedback-card">
+                <h3>Mike Johnson</h3>
+                <p>"Excellent platform for farmers. Very user-friendly."</p>
+            </div>
+            <div class="feedback-card">
+                <h3>Sarah Lee</h3>
+                <p>"The best decision I made for my farm. Thank you!"</p>
+            </div>
+            <div class="feedback-card">
+                <h3>David Brown</h3>
+                <p>"Incredible results! My yield has doubled."</p>
+            </div>
+            <div class="feedback-card">
+                <h3>Emily Davis</h3>
+                <p>"Fantastic experience. The team is very responsive."</p>
+            </div>
+            <div class="feedback-card">
+                <h3>Chris Wilson</h3>
+                <p>"A game-changer for modern farming. Highly recommended!"</p>
+            </div>
+            <div class="feedback-card">
+                <h3>Laura Martinez</h3>
+                <p>"Simple and effective. My farm is thriving now."</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
